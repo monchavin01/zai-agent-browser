@@ -65,6 +65,15 @@ python browser_agent.py
 # Then enter your task when prompted
 ```
 
+**Watch Chrome interact in real-time (visible browser window):**
+```bash
+HEADLESS=false python browser_agent.py "Search for Python tutorials"
+```
+Or set it permanently in `.env`:
+```
+HEADLESS=false
+```
+
 **Deactivate when done:**
 ```bash
 deactivate
@@ -75,10 +84,14 @@ deactivate
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `ZAI_API_KEY` | *required* | Your Z.ai API key from https://open.bigmodel.cn/ |
-| `MODEL_NAME` | `glm-4-flash` | LLM model to use. Options: `glm-4-flash`, `glm-4-air`, `glm-4` |
+| `MODEL_NAME` | `glm-4.5-air` | LLM model to use. Options: `glm-4.5-air`, `glm-4.5`, `glm-4.6`, `glm-4.7`, `glm-5`, `glm-5-tbo`, `glm-5.1`, `glm-4v-flash`, `glm-4v` |
 | `HEADLESS` | `true` | Browser mode: `true` = no window, `false` = visible browser |
-| `MAX_TOKENS` | `2000` | Maximum tokens per LLM response |
+| `ENABLE_VISION` | `false` | Enable screenshot mode (requires vision-capable model like `glm-4v-flash`) |
 | `TEMPERATURE` | `0.1` | Creativity level: `0.0` = deterministic, `1.0` = creative |
+| `MAX_ACTIONS_PER_STEP` | `10` | Max actions per agent step |
+| `MAX_STEPS` | `20` | Max steps for agent execution |
+| `ALLOWED_DOMAINS` | *empty* | Comma-separated list of allowed domains (empty = no restriction) |
+| `MAX_VISITS_PER_DOMAIN` | `5` | Max times agent can visit the same domain (loop guard) |
 
 ## Custom Actions
 
@@ -120,8 +133,10 @@ CONTROLLER = {
 | `command not found: python3` | Install Python 3.10+ from https://python.org |
 | venv not activated (wrong pip/python) | Run `source .venv/bin/activate` before any command |
 | `Missing required environment variable: ZAI_API_KEY` | Ensure `.env` exists and `ZAI_API_KEY` is set |
+| `ImportError: cannot import name 'ZhipuAI'` | Run `pip install -r requirements.txt` (now uses `langchain-openai`) |
 | `No module named 'browser_use'` | Run `pip install -r requirements.txt` |
 | `Executable not found` (Playwright) | Run `playwright install chromium` |
+| `Error code: 400 / code 1210` | Vision mode is on but model doesn't support it. Set `ENABLE_VISION=false` or switch to `glm-4v-flash` |
 | Task validation error | Ensure task is a non-empty string under 1000 characters |
 | Screenshot path error | Screenshots must be saved to `/tmp` directory only |
 
