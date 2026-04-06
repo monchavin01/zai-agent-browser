@@ -1,0 +1,16 @@
+[project]
+name = "browser-agent"
+version = "1.0.0"
+description = "Secure browser automation agent powered by browser-use and ZhipuAI GLM"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+dependencies = [
+    "browser-use==0.12.6",
+    "playwright>=1.52.0",
+    "langchain-openai>=0.1.0,<1.0.0",
+    "python-dotenv>=1.0.0,<2.0.0",
+]
+
+[project.scripts]
+browser-agent = "browser_agent:main"
