@@ -1,14 +1,19 @@
 """
-Custom Actions - Secure, validated actions for browser automation.
-All actions include input validation and error handling.
+Custom Actions — Standalone Playwright utility functions for browser automation.
+
+These functions can be used directly in scripts with a Playwright page object:
+
+    from custom_actions import take_screenshot
+    await take_screenshot(page, "result.png")
+
+They are NOT automatically registered with the browser-use Agent.
 """
 
-import asyncio
 import json
 import os
-from pathlib import Path
-from typing import Any, Optional
 from datetime import datetime
+from pathlib import Path
+from typing import Any
 
 
 # Constants for security
@@ -130,7 +135,7 @@ async def log_to_console(page, text: Any) -> dict[str, Any]:
 
 async def take_screenshot(
     page,
-    filename: Optional[Any] = None,
+    filename: Any | None = None,
     full_page: bool = False
 ) -> dict[str, Any]:
     """
@@ -215,36 +220,3 @@ async def get_page_info(page) -> dict[str, Any]:
             "action": "get_page_info",
             "error": f"Execution error: {e}",
         }
-
-
-# Controller mapping for action registration
-CONTROLLER = {
-    "log_to_console": log_to_console,
-    "screenshot": take_screenshot,
-    "get_page_info": get_page_info,
-}
-
-
-async def execute_action(page, action_name: str, *args, **kwargs) -> dict[str, Any]:
-    """
-    Execute a custom action by name.
-
-    Args:
-        page: The Playwright page object
-        action_name: Name of the action to execute
-        *args: Positional arguments to pass to the action
-        **kwargs: Keyword arguments to pass to the action
-
-    Returns:
-        Result dict from the action execution
-    """
-    action_func = CONTROLLER.get(action_name)
-
-    if action_func is None:
-        return {
-            "success": False,
-            "action": action_name,
-            "error": f"Unknown action: {action_name}",
-        }
-
-    return await action_func(page, *args, **kwargs)
