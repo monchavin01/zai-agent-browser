@@ -5,3 +5,6 @@ __pycache__/
 *.pyo
 .DS_Store
 *.log
+result.json
+report.txt
+logs/
