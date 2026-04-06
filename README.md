@@ -12,7 +12,7 @@ A secure browser automation tool powered by browser-use and ZhipuAI (Z.ai) for e
 
 1. Clone or navigate to the project directory:
    ```bash
-   cd /path/to/browser-use
+   cd /path/to/zai-agent-browser
    ```
 
 2. Create and activate a virtual environment:
@@ -143,7 +143,7 @@ CONTROLLER = {
 ## Project Structure
 
 ```
-browser-use/
+zai-agent-browser/
 ├── .env.example          # Environment variable template
 ├── .gitignore            # Git ignore rules
 ├── requirements.txt      # Python dependencies
